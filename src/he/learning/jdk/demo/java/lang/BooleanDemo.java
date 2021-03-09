@@ -1,4 +1,4 @@
-package demo.java.lang;
+package he.learning.jdk.demo.java.lang;
 
 /**
  * @author: 禾绪

@@ -1,4 +1,4 @@
-package demo.java.util.collection.map;
+package he.learning.jdk.demo.java.util.collection.map;
 
 import java.util.HashMap;
 import java.util.Map;

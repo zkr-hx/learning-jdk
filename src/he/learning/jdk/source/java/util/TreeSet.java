@@ -448,11 +448,14 @@ public class TreeSet<E> extends AbstractSet<E>
     }
 
     /**
+     * 用Optional语法简化语句 by 禾绪
+     *
      * @since 1.6
      */
     public E pollFirst() {
-        Map.Entry<E,?> e = m.pollFirstEntry();
-        return (e == null) ? null : e.getKey();
+        /*Map.Entry<E,?> e = m.pollFirstEntry();
+        return (e == null) ? null : e.getKey();*/
+        return Optional.ofNullable(m.pollFirstEntry()).map(Map.Entry::getKey).orElse(null);
     }
 
     /**

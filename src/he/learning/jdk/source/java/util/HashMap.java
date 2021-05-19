@@ -25,6 +25,8 @@
 
 package java.util;
 
+import sun.misc.SharedSecrets;
+
 import java.io.IOException;
 import java.io.InvalidObjectException;
 import java.io.Serializable;
@@ -34,7 +36,6 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
-import sun.misc.SharedSecrets;
 
 /**
  * Hash table based implementation of the <tt>Map</tt> interface.  This
@@ -254,6 +255,9 @@ public class HashMap<K,V> extends AbstractMap<K,V>
      * than 2 and should be at least 8 to mesh with assumptions in
      * tree removal about conversion back to plain bins upon
      * shrinkage.
+     *
+     * <p>当桶(bucket)上的结点数大于{@code TREEIFY_THRESHOLD}且对应的table
+     * 的大小不小于{@code MIN_TREEIFY_CAPACITY}时，链表会转成红黑树。
      */
     static final int TREEIFY_THRESHOLD = 8;
 
@@ -261,6 +265,8 @@ public class HashMap<K,V> extends AbstractMap<K,V>
      * The bin count threshold for untreeifying a (split) bin during a
      * resize operation. Should be less than TREEIFY_THRESHOLD, and at
      * most 6 to mesh with shrinkage detection under removal.
+     *
+     * <p>当桶(bucket)上的结点数小于{@code UNTREEIFY_THRESHOLD}时红黑树转成链表。
      */
     static final int UNTREEIFY_THRESHOLD = 6;
 
@@ -269,6 +275,8 @@ public class HashMap<K,V> extends AbstractMap<K,V>
      * (Otherwise the table is resized if too many nodes in a bin.)
      * Should be at least 4 * TREEIFY_THRESHOLD to avoid conflicts
      * between resizing and treeification thresholds.
+     *
+     * <p>桶(bucket)中链表结构转化为红黑树对应的table的<tt>最小值</tt>
      */
     static final int MIN_TREEIFY_CAPACITY = 64;
 
@@ -374,6 +382,8 @@ public class HashMap<K,V> extends AbstractMap<K,V>
 
     /**
      * Returns a power of two size for the given target capacity.
+     *
+     * <p>返回大于{@code cap}的最小的二次幂数值
      */
     static final int tableSizeFor(int cap) {
         int n = cap - 1;
@@ -392,6 +402,9 @@ public class HashMap<K,V> extends AbstractMap<K,V>
      * necessary. When allocated, length is always a power of two.
      * (We also tolerate length zero in some operations to allow
      * bootstrapping mechanics that are currently not needed.)
+     *
+     * <p>{@link HashMap}的一级数据结构-<tt>数组</tt>,存放的是元素是二级数据结构-<tt>链表</tt>
+     * 或<tt>红黑树</tt>的头结点。
      */
     transient Node<K,V>[] table;
 
@@ -417,6 +430,8 @@ public class HashMap<K,V> extends AbstractMap<K,V>
 
     /**
      * The next size value at which to resize (capacity * load factor).
+     *
+     * <p>临界值。当实际大小(capacity * load factor)超过临界值时，会进行扩容。
      *
      * @serial
      */

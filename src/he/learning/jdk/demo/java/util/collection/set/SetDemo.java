@@ -1,7 +1,7 @@
 package he.learning.jdk.demo.java.util.collection.set;
 
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author 朱科睿
@@ -22,12 +22,14 @@ public class SetDemo {
         linkedHashSet.forEach(System.out::println);*/
 
 
-        SortedSet<String> treeSet = new TreeSet<>();
+        Set<Object> treeSet = new HashSet<>();
         treeSet.add("aa");
         treeSet.add("bb");
         treeSet.add("cc");
         treeSet.add("dd");
-        treeSet.subSet("aa\0", "cc").forEach(System.out::println);
+        treeSet.add(1);
+        treeSet.add(23.2f);
+        treeSet.forEach(System.out::println);
 
     }
 }

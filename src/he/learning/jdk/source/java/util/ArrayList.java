@@ -25,10 +25,11 @@
 
 package java.util;
 
+import sun.misc.SharedSecrets;
+
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
-import sun.misc.SharedSecrets;
 
 /**
  * Resizable-array implementation of the <tt>List</tt> interface.  Implements
@@ -116,6 +117,7 @@ public class ArrayList<E> extends AbstractList<E>
 
     /**
      * Shared empty array instance used for empty instances.
+     * 指定该ArrayList容量为0时，返回该空数组。
      */
     private static final Object[] EMPTY_ELEMENTDATA = {};
 
@@ -123,6 +125,9 @@ public class ArrayList<E> extends AbstractList<E>
      * Shared empty array instance used for default sized empty instances. We
      * distinguish this from EMPTY_ELEMENTDATA to know how much to inflate when
      * first element is added.
+     *
+     * 当调用无参构造方法，返回的是该数组。刚创建一个ArrayList 时，其内数据量为0。
+     * 它与EMPTY_ELEMENTDATA的区别就是：该数组是默认返回的，而EMPTY_ELEMENTDATA是在用户指定容量为0时返回。
      */
     private static final Object[] DEFAULTCAPACITY_EMPTY_ELEMENTDATA = {};
 
@@ -131,6 +136,11 @@ public class ArrayList<E> extends AbstractList<E>
      * The capacity of the ArrayList is the length of this array buffer. Any
      * empty ArrayList with elementData == DEFAULTCAPACITY_EMPTY_ELEMENTDATA
      * will be expanded to DEFAULT_CAPACITY when the first element is added.
+     *
+     * 用来保存添加到ArrayList中的元素的缓冲区。
+     * ArrayList的容量就是该数组的长度。
+     * 该值为{@link DEFAULTCAPACITY_EMPTY_ELEMENTDATA}时，当第一次添加元素进入ArrayList中时，数组将扩容值{@link DEFAULT_CAPACITY}。
+     * 被标记为transient，在对象被序列化的时候不会被序列化。
      */
     transient Object[] elementData; // non-private to simplify nested class access
 
